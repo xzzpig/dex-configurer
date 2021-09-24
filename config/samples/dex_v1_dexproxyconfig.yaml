@@ -1,0 +1,13 @@
+apiVersion: dex.xzzpig.com/v1
+kind: DexProxyConfig
+metadata:
+  name: dexproxyconfig-sample
+spec:
+  ocid-issuer-url: https://auth.sample.com
+  provider-display-name: Sample OCID Provider
+  secretRef:
+    namespace: ""
+    name: dex
+    key: config.yaml
+  default-url:
+    scheme: https

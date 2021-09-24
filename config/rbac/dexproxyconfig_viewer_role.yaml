@@ -1,0 +1,20 @@
+# permissions for end users to view dexproxyconfigs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dexproxyconfig-viewer-role
+rules:
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexproxyconfigs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexproxyconfigs/status
+  verbs:
+  - get

@@ -1,0 +1,122 @@
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: manager-role
+rules:
+- resources:
+  - configmaps
+  - secrets
+  - services
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexauthclients
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexauthclients/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexauthclients/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexclientorders
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexclientorders/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexclientorders/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - networking.k8s.io.xzzpig.com
+  resources:
+  - ingresses
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - networking.k8s.io.xzzpig.com
+  resources:
+  - ingresses/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - networking.k8s.io.xzzpig.com
+  resources:
+  - ingresses/status
+  verbs:
+  - get
+  - patch
+  - update

@@ -1,0 +1,24 @@
+# permissions for end users to edit dexproxyconfigs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dexproxyconfig-editor-role
+rules:
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexproxyconfigs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexproxyconfigs/status
+  verbs:
+  - get

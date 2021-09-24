@@ -1,0 +1,24 @@
+# permissions for end users to edit dexclientorders.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dexclientorder-editor-role
+rules:
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexclientorders
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexclientorders/status
+  verbs:
+  - get

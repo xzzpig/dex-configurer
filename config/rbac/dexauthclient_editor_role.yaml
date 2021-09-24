@@ -1,0 +1,24 @@
+# permissions for end users to edit dexauthclients.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dexauthclient-editor-role
+rules:
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexauthclients
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexauthclients/status
+  verbs:
+  - get

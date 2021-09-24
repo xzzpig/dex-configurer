@@ -1,0 +1,141 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.1
+  creationTimestamp: null
+  name: dexclientorders.dex.xzzpig.com
+spec:
+  group: dex.xzzpig.com
+  names:
+    kind: DexClientOrder
+    listKind: DexClientOrderList
+    plural: dexclientorders
+    singular: dexclientorder
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: DexClientOrder is the Order to create a dex auth client
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DexClientOrderSpec defines the desired state of DexClientOrder
+            properties:
+              client-id:
+                type: string
+              client-name:
+                type: string
+              client-secret:
+                type: string
+              config:
+                description: Config Ref of DexClientOrder
+                properties:
+                  name:
+                    type: string
+                  namespace:
+                    type: string
+                required:
+                - name
+                type: object
+              redirect-url:
+                properties:
+                  host:
+                    description: If Empty will Find Host from Target Ingress
+                    type: string
+                  path:
+                    type: string
+                  port:
+                    type: integer
+                  scheme:
+                    enum:
+                    - http
+                    - https
+                    type: string
+                type: object
+              target-ingress:
+                description: Target Ingress will Add Nginx Auth Annotations
+                properties:
+                  name:
+                    type: string
+                  namespace:
+                    type: string
+                required:
+                - name
+                type: object
+            required:
+            - config
+            - target-ingress
+            type: object
+          status:
+            description: DexClientOrderStatus defines the observed state of DexClientOrder
+            properties:
+              created:
+                type: boolean
+              message:
+                type: string
+              ref-objects:
+                properties:
+                  client-ref:
+                    properties:
+                      name:
+                        type: string
+                      namespace:
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  deployment-ref:
+                    properties:
+                      name:
+                        type: string
+                      namespace:
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  ingress-ref:
+                    properties:
+                      name:
+                        type: string
+                      namespace:
+                        type: string
+                    required:
+                    - name
+                    type: object
+                  service-ref:
+                    properties:
+                      name:
+                        type: string
+                      namespace:
+                        type: string
+                    required:
+                    - name
+                    type: object
+                type: object
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

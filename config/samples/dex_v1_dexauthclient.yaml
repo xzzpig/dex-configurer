@@ -1,0 +1,14 @@
+apiVersion: dex.xzzpig.com/v1
+kind: DexAuthClient
+metadata:
+  name: dexauthclient-sample
+spec:
+  id: example-app
+  name: Example App
+  redirectURIs:
+  - http://127.0.0.1:5555/callback
+  secret: abcdabcd
+  secretRef:
+    namespace: ""
+    name: dex
+    key: config.yaml

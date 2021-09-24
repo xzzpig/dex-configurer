@@ -1,0 +1,39 @@
+domain: xzzpig.com
+layout:
+- go.kubebuilder.io/v3
+multigroup: true
+projectName: dex-configurer
+repo: github.com/xzzpig/dex-configurer
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: xzzpig.com
+  group: dex
+  kind: DexAuthClient
+  path: github.com/xzzpig/dex-configurer/apis/dex/v1
+  version: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: xzzpig.com
+  group: dex
+  kind: DexProxyConfig
+  path: github.com/xzzpig/dex-configurer/apis/dex/v1
+  version: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: xzzpig.com
+  group: dex
+  kind: DexClientOrder
+  path: github.com/xzzpig/dex-configurer/apis/dex/v1
+  version: v1
+- controller: true
+  domain: xzzpig.com
+  group: networking.k8s.io
+  kind: Ingress
+  version: v1
+version: "3"

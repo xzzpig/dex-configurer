@@ -1,0 +1,9 @@
+apiVersion: dex.xzzpig.com/v1
+kind: DexClientOrder
+metadata:
+  name: dexclientorder-sample
+spec:
+  config:
+    name: dexproxyconfig-sample
+  target-ingress:
+    name: dexproxy-sample-ingress

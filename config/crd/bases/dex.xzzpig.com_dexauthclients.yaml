@@ -1,0 +1,96 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.4.1
+  creationTimestamp: null
+  name: dexauthclients.dex.xzzpig.com
+spec:
+  group: dex.xzzpig.com
+  names:
+    kind: DexAuthClient
+    listKind: DexAuthClientList
+    plural: dexauthclients
+    singular: dexauthclient
+  scope: Namespaced
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        description: DexAuthClient is the Schema for the dexauthclients API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: DexAuthClientSpec defines the desired state of DexAuthClient
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              redirectURIs:
+                items:
+                  type: string
+                type: array
+              secret:
+                type: string
+              secretRef:
+                description: The K8s Secret Ref would be modified
+                properties:
+                  key:
+                    description: The config file key in the k8s secret
+                    type: string
+                  name:
+                    description: Name of the the k8s secret
+                    type: string
+                  namespace:
+                    description: Namespace of the k8s secret
+                    type: string
+                required:
+                - key
+                - name
+                - namespace
+                type: object
+            required:
+            - id
+            - name
+            - redirectURIs
+            - secret
+            - secretRef
+            type: object
+          status:
+            description: DexAuthClientStatus defines the observed state of DexAuthClient
+            properties:
+              finish:
+                type: boolean
+              message:
+                type: string
+              success:
+                type: boolean
+            required:
+            - finish
+            - success
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
