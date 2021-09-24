@@ -267,6 +267,7 @@ spec:
               cookie-secret:
                 type: string
               default-url:
+                description: Default RedirectUrl will be Used when RedirectUrl's Filed is Empty in the DexClientOrder
                 properties:
                   host:
                     description: If Empty will Find Host from Target Ingress
@@ -373,7 +374,9 @@ metadata:
   creationTimestamp: null
   name: dex-configurer-manager-role
 rules:
-- resources:
+- apiGroups:
+  - ""
+  resources:
   - configmaps
   - secrets
   - services
@@ -445,6 +448,32 @@ rules:
   - dex.xzzpig.com
   resources:
   - dexclientorders/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexproxyconfigs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexproxyconfigs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexproxyconfigs/status
   verbs:
   - get
   - patch
@@ -624,7 +653,7 @@ spec:
         - --leader-elect
         command:
         - /manager
-        image: xzzpigdexconfigurer:1.0.0
+        image: xzzpig/dexconfigurer:1.0.0
         livenessProbe:
           httpGet:
             path: /healthz
@@ -641,10 +670,10 @@ spec:
         resources:
           limits:
             cpu: 100m
-            memory: 30Mi
+            memory: 200Mi
           requests:
             cpu: 100m
-            memory: 20Mi
+            memory: 50Mi
         securityContext:
           allowPrivilegeEscalation: false
       securityContext:

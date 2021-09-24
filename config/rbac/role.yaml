@@ -6,7 +6,9 @@ metadata:
   creationTimestamp: null
   name: manager-role
 rules:
-- resources:
+- apiGroups:
+  - ""
+  resources:
   - configmaps
   - secrets
   - services
@@ -78,6 +80,32 @@ rules:
   - dex.xzzpig.com
   resources:
   - dexclientorders/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexproxyconfigs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexproxyconfigs/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - dex.xzzpig.com
+  resources:
+  - dexproxyconfigs/status
   verbs:
   - get
   - patch

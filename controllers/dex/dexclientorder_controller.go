@@ -48,7 +48,10 @@ type DexClientOrderReconciler struct {
 //+kubebuilder:rbac:groups=dex.xzzpig.com,resources=dexclientorders/finalizers,verbs=update
 //+kubebuilder:rbac:groups=networking.k8s.io,resources=ingresses,verbs=get;list;watch;create;update;patch;delete
 //+kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
-//+kubebuilder:rbac:groups=,resources=secrets;configmaps;services,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups="",resources=secrets;configmaps;services,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=dex.xzzpig.com,resources=dexproxyconfigs,verbs=get;list;watch;create;update;patch;delete
+//+kubebuilder:rbac:groups=dex.xzzpig.com,resources=dexproxyconfigs/status,verbs=get;update;patch
+//+kubebuilder:rbac:groups=dex.xzzpig.com,resources=dexproxyconfigs/finalizers,verbs=update
 
 func (r *DexClientOrderReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := log.FromContext(ctx)
