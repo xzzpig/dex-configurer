@@ -198,7 +198,7 @@ func (r *DexClientOrderReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 		return ctrl.Result{Requeue: true}, nil
 	}
 	if config.Spec.ProxyImage == "" {
-		config.Spec.ProxyImage = "quay.io/oauth2-proxy/oauth2-proxy:v7.1.3"
+		config.Spec.ProxyImage = "quay.io/oauth2-proxy/oauth2-proxy:v7.2.0"
 		if err := r.Update(ctx, &config); err != nil {
 			var message = "Unable to Update DexProxyConfig ProxyImage"
 			log.Error(err, message)
@@ -383,6 +383,9 @@ upstreams = [ "file:///dev/null" ]`
 			"--provider-display-name=" + config.Spec.ProviderDisplayName,
 			"--redirect-url=" + order.Spec.RedirectUrl.GoString(),
 			"--config=/etc/oauth2_proxy/oauth2_proxy.cfg",
+		}
+		for _, group := range order.Spec.AllowedGroups {
+			deployment.Spec.Template.Spec.Containers[0].Args = append(deployment.Spec.Template.Spec.Containers[0].Args, "--allowed-group="+group)
 		}
 		deployment.Spec.Template.Spec.Containers[0].Env = []corev1.EnvVar{
 			{

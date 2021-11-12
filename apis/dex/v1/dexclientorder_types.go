@@ -72,6 +72,10 @@ type DexClientOrderSpec struct {
 	ClientName string `json:"client-name,omitempty"`
 	// +kubebuilder:validation:Optional
 	ClientSecret string `json:"client-secret,omitempty"`
+
+	// Groups Allow user to login, All groups if null
+	// +kubebuilder:validation:Optional
+	AllowedGroups []string `json:"allowed-groups"`
 }
 
 type DexClientOrderRefObjects struct {

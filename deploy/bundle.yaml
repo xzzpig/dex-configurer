@@ -128,6 +128,11 @@ spec:
           spec:
             description: DexClientOrderSpec defines the desired state of DexClientOrder
             properties:
+              allowed-groups:
+                description: Groups Allow user to login, All groups if null
+                items:
+                  type: string
+                type: array
               client-id:
                 type: string
               client-name:
@@ -653,7 +658,7 @@ spec:
         - --leader-elect
         command:
         - /manager
-        image: xzzpig/dexconfigurer:1.0.0
+        image: xzzpig/dexconfigurer:1.1.0
         livenessProbe:
           httpGet:
             path: /healthz
