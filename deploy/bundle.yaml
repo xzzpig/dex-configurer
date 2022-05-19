@@ -269,6 +269,10 @@ spec:
           spec:
             description: DexProxyConfigSpec defines the desired state of DexProxyConfig
             properties:
+              auth-cache-enabled:
+                type: boolean
+              auth-cache-key:
+                type: string
               cookie-secret:
                 type: string
               default-url:
@@ -658,7 +662,7 @@ spec:
         - --leader-elect
         command:
         - /manager
-        image: xzzpig/dexconfigurer:1.1.0
+        image: xzzpig/dexconfigurer:1.2.0
         livenessProbe:
           httpGet:
             path: /healthz
