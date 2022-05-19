@@ -40,6 +40,13 @@ type DexProxyConfigSpec struct {
 	// Default RedirectUrl will be Used when RedirectUrl's Filed is Empty in the DexClientOrder
 	// +kubebuilder:validation:Optional
 	DefaultUrl DexRedirectUrl `json:"default-url"`
+
+	// +kubebuilder:validation:Optional
+	AuthCacheEnabled bool `json:"auth-cache-enabled"`
+
+	// +kubebuilder:default:$remote_user$http_authorization
+	// +kubebuilder:validation:Optional
+	AuthCacheKey string `json:"auth-cache-key"`
 }
 
 // DexProxyConfigStatus defines the observed state of DexProxyConfig

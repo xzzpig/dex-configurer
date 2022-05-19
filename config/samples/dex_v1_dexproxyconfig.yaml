@@ -5,6 +5,7 @@ metadata:
 spec:
   ocid-issuer-url: https://auth.sample.com
   provider-display-name: Sample OCID Provider
+  auth-cache-enabled: true
   secretRef:
     namespace: ""
     name: dex

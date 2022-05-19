@@ -36,6 +36,10 @@ spec:
           spec:
             description: DexProxyConfigSpec defines the desired state of DexProxyConfig
             properties:
+              auth-cache-enabled:
+                type: boolean
+              auth-cache-key:
+                type: string
               cookie-secret:
                 type: string
               default-url:

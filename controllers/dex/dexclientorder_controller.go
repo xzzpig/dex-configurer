@@ -184,7 +184,6 @@ func (r *DexClientOrderReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 		log.Info("Updated DexClientOrder Config Namespace")
 		return ctrl.Result{Requeue: true}, nil
 	}
-
 	if config.Spec.CookieSecret == "" {
 		config.Spec.CookieSecret = utils.RandString(16)
 		if err := r.Update(ctx, &config); err != nil {
@@ -214,6 +213,9 @@ func (r *DexClientOrderReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 	}
 	if config.Spec.ProviderDisplayName == "" {
 		config.Spec.ProviderDisplayName = "Dex Login"
+	}
+	if config.Spec.AuthCacheKey == "" {
+		config.Spec.AuthCacheKey = "$remote_user$http_authorization"
 	}
 
 	if order.Spec.RedirectUrl.Host == "" {
@@ -666,6 +668,9 @@ upstreams = [ "file:///dev/null" ]`
 	}
 	targetIngress.Annotations["nginx.ingress.kubernetes.io/auth-signin"] = order.Spec.RedirectUrl.AuthSignin()
 	targetIngress.Annotations["nginx.ingress.kubernetes.io/auth-url"] = fmt.Sprintf("http://%v.%v.svc.cluster.local/oauth2/auth", service.Name, service.Namespace)
+	if config.Spec.AuthCacheEnabled {
+		targetIngress.Annotations["nginx.ingress.kubernetes.io/auth-cache-key"] = config.Spec.AuthCacheKey
+	}
 	if err := r.Update(ctx, &targetIngress); err != nil {
 		var message = "Unable to Update Target Ingress Annotations"
 		log.Error(err, message)
