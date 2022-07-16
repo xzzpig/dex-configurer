@@ -215,7 +215,7 @@ func (r *DexClientOrderReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 		config.Spec.ProviderDisplayName = "Dex Login"
 	}
 	if config.Spec.AuthCacheKey == "" {
-		config.Spec.AuthCacheKey = "$remote_user$http_authorization"
+		config.Spec.AuthCacheKey = "$cookie__oauth2_proxy"
 	}
 
 	if order.Spec.RedirectUrl.Host == "" {
@@ -304,12 +304,12 @@ func (r *DexClientOrderReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 		order.Status.RefObjects.DeploymentRef.Namespace = order.Namespace
 	}
 	if order.Status.RefObjects.DeploymentRef.Name == "" {
-		order.Status.RefObjects.DeploymentRef.Name = order.Name
+		order.Status.RefObjects.DeploymentRef.Name = order.Name + "-dex-proxy"
 		for {
 			if err := r.Get(ctx, types.NamespacedName(order.Status.RefObjects.DeploymentRef), &appv1.Deployment{}); err != nil {
 				break
 			}
-			order.Status.RefObjects.DeploymentRef.Name = order.Name + "-" + strings.ToLower(utils.RandString(4))
+			order.Status.RefObjects.DeploymentRef.Name = order.Name + "-dex-proxy-" + strings.ToLower(utils.RandString(4))
 		}
 		deployment.Name = order.Status.RefObjects.DeploymentRef.Name
 		deployment.Namespace = order.Status.RefObjects.DeploymentRef.Namespace
@@ -379,7 +379,7 @@ upstreams = [ "file:///dev/null" ]`
 		deployment.Spec.Template.Spec.Containers[0].Args = []string{
 			"--http-address=0.0.0.0:4180",
 			"--metrics-address=0.0.0.0:44180",
-			"--cookie-name=oauth2-token",
+			"--cookie-name=_oauth2_proxy",
 			"--oidc-issuer-url=" + config.Spec.OcidIssuerUrl,
 			"--provider=oidc",
 			"--provider-display-name=" + config.Spec.ProviderDisplayName,
