@@ -66,8 +66,8 @@ func init() {
 }
 
 /*
-	转换为大驼峰命名法则
-	首字母大写，“_” 忽略后大写
+转换为大驼峰命名法则
+首字母大写，“_” 忽略后大写
 */
 func MarshalCamel(name string) string {
 	if name == "" {
@@ -92,7 +92,7 @@ func MarshalCamel(name string) string {
 }
 
 /*
-  回退网络模式
+回退网络模式
 */
 func UnMarshalCamel(name string) string {
 	const (
