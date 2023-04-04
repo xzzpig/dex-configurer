@@ -76,6 +76,15 @@ type DexClientOrderSpec struct {
 	// Groups Allow user to login, All groups if null
 	// +kubebuilder:validation:Optional
 	AllowedGroups []string `json:"allowed-groups"`
+
+	// Extra Options to be add to oauth proxy deployment
+	// See https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview
+	// +kubebuilder:validation:Optional
+	ExtraArguments []string `json:"extra-args"`
+
+	// Extra Redirect Urls to be add to dex client
+	// +kubebuilder:validation:Optional
+	ExtraRedirectUrls []string `json:"extra-redirect-urls"`
 }
 
 type DexClientOrderRefObjects struct {

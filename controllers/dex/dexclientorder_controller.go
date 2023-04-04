@@ -197,7 +197,7 @@ func (r *DexClientOrderReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 		return ctrl.Result{Requeue: true}, nil
 	}
 	if config.Spec.ProxyImage == "" {
-		config.Spec.ProxyImage = "quay.io/oauth2-proxy/oauth2-proxy:v7.2.0"
+		config.Spec.ProxyImage = "quay.io/oauth2-proxy/oauth2-proxy:v7.4.0"
 		if err := r.Update(ctx, &config); err != nil {
 			var message = "Unable to Update DexProxyConfig ProxyImage"
 			log.Error(err, message)
@@ -267,7 +267,7 @@ func (r *DexClientOrderReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 	client.Spec.Id = order.Spec.ClientId
 	client.Spec.Name = order.Spec.ClientName
 	client.Spec.Secret = order.Spec.ClientSecret
-	client.Spec.RedirectURIs = []string{order.Spec.RedirectUrl.GoString()}
+	client.Spec.RedirectURIs = append([]string{order.Spec.RedirectUrl.GoString()}, order.Spec.ExtraRedirectUrls...)
 	client.Spec.SecretRef = config.Spec.SecretRef
 	if err := ctrl.SetControllerReference(&order, &client, r.Scheme); err != nil {
 		var message = "Unable to Set Controller Reference on DexAuthClient"
@@ -389,6 +389,8 @@ upstreams = [ "file:///dev/null" ]`
 		for _, group := range order.Spec.AllowedGroups {
 			deployment.Spec.Template.Spec.Containers[0].Args = append(deployment.Spec.Template.Spec.Containers[0].Args, "--allowed-group="+group)
 		}
+		deployment.Spec.Template.Spec.Containers[0].Args = append(deployment.Spec.Template.Spec.Containers[0].Args, order.Spec.ExtraArguments...)
+
 		deployment.Spec.Template.Spec.Containers[0].Env = []corev1.EnvVar{
 			{
 				Name:  "OAUTH2_PROXY_CLIENT_ID",
@@ -406,7 +408,7 @@ upstreams = [ "file:///dev/null" ]`
 		deployment.Spec.Template.Spec.Containers[0].Image = config.Spec.ProxyImage
 		deployment.Spec.Template.Spec.Containers[0].LivenessProbe = &corev1.Probe{
 			FailureThreshold: 3,
-			Handler: corev1.Handler{
+			ProbeHandler: corev1.ProbeHandler{
 				HTTPGet: &corev1.HTTPGetAction{
 					Path:   "/ping",
 					Port:   intstr.FromString("http"),
@@ -419,7 +421,7 @@ upstreams = [ "file:///dev/null" ]`
 		}
 		deployment.Spec.Template.Spec.Containers[0].ReadinessProbe = &corev1.Probe{
 			FailureThreshold: 3,
-			Handler: corev1.Handler{
+			ProbeHandler: corev1.ProbeHandler{
 				HTTPGet: &corev1.HTTPGetAction{
 					Path:   "/ping",
 					Port:   intstr.FromString("http"),

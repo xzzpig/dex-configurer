@@ -15,8 +15,8 @@ limitations under the License.
 */
 
 // Package v1 contains API Schema definitions for the dex v1 API group
-//+kubebuilder:object:generate=true
-//+groupName=dex.xzzpig.com
+// +kubebuilder:object:generate=true
+// +groupName=dex.xzzpig.com
 package v1
 
 import (
